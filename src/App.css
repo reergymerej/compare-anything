@@ -16,3 +16,9 @@ html, body {
   margin-right: 1em;
   margin-bottom: 0.5em;
 }
+
+.score {
+  display: block;
+  font-size: 2em;
+  font-weight: bold;
+}

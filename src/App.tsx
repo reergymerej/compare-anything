@@ -17,10 +17,12 @@ const initialState: State = {
 type WeightProps = {
   name: string,
   value: number,
+  max: number,
   onChange: (name: string, value: number) => void,
 }
 const Weight: React.FC<WeightProps> = ({
   name,
+  max,
   value,
   onChange,
 }) => {
@@ -32,7 +34,7 @@ const Weight: React.FC<WeightProps> = ({
       <input
         type="range"
         min="1"
-        max="10"
+        max={max}
         value={value}
         onChange={handleChange}
       />
@@ -61,6 +63,13 @@ function App() {
     const weight = weights[key]
     return acc + (value * weight)
   }, 0)
+  const MAX_RATING = 2
+  const MAX_WEIGHT = 15
+  const potential = ratings.reduce((acc, key) => {
+    const weight = weights[key]
+    return acc + weight * MAX_RATING
+  }, 0)
+  const finalScore = Math.round((score/potential) * 100)
   return (
     <div className="App">
       {ratings.map(rating => (
@@ -73,6 +82,7 @@ function App() {
       ))}
       {ratings.map(rating => (
         <Weight
+          max={MAX_WEIGHT}
           key={rating}
           name={rating}
           onChange={handleWeightChange}
@@ -81,7 +91,8 @@ function App() {
       ))}
       <hr />
       <div>
-        {score}
+        <span className="score">{finalScore}</span>
+        {score} / {potential}
       </div>
     </div>
   );
